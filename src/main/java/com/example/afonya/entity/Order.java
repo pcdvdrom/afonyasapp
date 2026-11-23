@@ -6,16 +6,13 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
-
-// id SERIAL PRIMARY KEY,
-// account_id INTEGER NOT NULL,
-// order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-// total_amount DECIMAL(10, 2) NOT NULL,
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,5 +32,17 @@ public class Order {
 
   @Column(name = "total_amount")
   private BigDecimal totalAmount;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "author_id")
+  private Account account;
+
+  protected Order() {
+  }
+
+  public Order(Long accountId, BigDecimal totalAmount) {
+    this.accountId = accountId;
+    this.totalAmount = totalAmount;
+  }
 
 }
